@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class SimpleDatabase implements Database {
 
-    private String name;
+    private final String name;
 
     private HashMap<String, HashMap<String, String>> tables;
 

@@ -4,11 +4,11 @@ import ru.andrey.kvstorage.exception.DatabaseException;
 
 public class CreateTableCommand implements DatabaseCommand {
 
-    private String tableName;
+    private final String tableName;
 
-    private String databaseName;
+    private final String databaseName;
 
-    private ExecutionEnvironment environment;
+    private final ExecutionEnvironment environment;
 
     public CreateTableCommand(String databaseName, String tableName, ExecutionEnvironment environment) {
         this.databaseName = databaseName;

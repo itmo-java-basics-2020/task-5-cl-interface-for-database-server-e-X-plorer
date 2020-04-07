@@ -4,9 +4,9 @@ import ru.andrey.kvstorage.logic.SimpleDatabase;
 
 public class CreateSimpleDatabaseCommand implements DatabaseCommand {
 
-    private String databaseName;
+    private final String databaseName;
 
-    private ExecutionEnvironment environment;
+    private final ExecutionEnvironment environment;
 
     public CreateSimpleDatabaseCommand(String databaseName, ExecutionEnvironment environment) {
         this.databaseName = databaseName;

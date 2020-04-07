@@ -24,7 +24,7 @@ public class DatabaseServer {
     }
 
     DatabaseCommandResult executeNextCommand(String commandText) {
-        if (commandText == null) {
+        if (commandText == null || commandText.isEmpty()) {
             return DatabaseCommandResult.Result.error("No input was given");
         }
         String[] arguments = commandText.split(" ");

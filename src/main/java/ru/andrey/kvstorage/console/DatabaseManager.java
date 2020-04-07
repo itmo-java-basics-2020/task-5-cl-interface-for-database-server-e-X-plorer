@@ -6,7 +6,7 @@ import java.util.*;
 
 public class DatabaseManager implements ExecutionEnvironment {
 
-    HashMap<String, Database> databases;
+    private HashMap<String, Database> databases;
 
     @Override
     public Optional<Database> getDatabase(String name) {

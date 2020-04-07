@@ -18,9 +18,9 @@ public interface DatabaseCommandResult {
 
     class Result implements DatabaseCommandResult {
 
-        String result;
+        private final String result;
 
-        boolean isSuccess;
+        private final boolean isSuccess;
 
         private Result(String message, boolean isSuccess) {
             this.isSuccess = isSuccess;

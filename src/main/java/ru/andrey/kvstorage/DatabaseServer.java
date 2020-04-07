@@ -1,6 +1,7 @@
 package ru.andrey.kvstorage;
 
 import ru.andrey.kvstorage.console.*;
+import ru.andrey.kvstorage.exception.DatabaseCommandArgumentException;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -31,7 +32,7 @@ public class DatabaseServer {
         try {
             return DatabaseCommands.valueOf(arguments[0])
                     .getCommand(env, Arrays.copyOfRange(arguments, 1, arguments.length)).execute();
-        } catch (IllegalArgumentException exception) {
+        } catch (DatabaseCommandArgumentException | IllegalArgumentException exception) {
             return DatabaseCommandResult.Result.error(exception.getMessage());
         }
     }

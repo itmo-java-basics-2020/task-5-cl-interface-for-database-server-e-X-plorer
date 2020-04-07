@@ -1,39 +1,34 @@
 package ru.andrey.kvstorage.console;
 
+import ru.andrey.kvstorage.exception.DatabaseCommandArgumentException;
+
 public enum DatabaseCommands {
 
     CREATE_DATABASE {
-        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
-            if (args.length != 1) {
-                throw new IllegalArgumentException("This command requires exactly 1 argument");
-            }
-            return new CreateSimpleDatabaseCommand(args[0], env);
+        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args)
+                throws DatabaseCommandArgumentException {
+            return CreateSimpleDatabaseCommand.GetCommand(env, args);
         }
     },
     CREATE_TABLE {
-        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
-            if (args.length != 2) {
-                throw new IllegalArgumentException("This command requires exactly 2 arguments");
-            }
-            return new CreateTableCommand(args[0], args[1], env);
+        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args)
+                throws DatabaseCommandArgumentException {
+            return CreateTableCommand.GetCommand(env, args);
         }
     },
     READ_KEY {
-        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
-            if (args.length != 3) {
-                throw new IllegalArgumentException("This command requires exactly 3 arguments");
-            }
-            return new ReadKeyCommand(args[0], args[1], args[2], env);
+        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args)
+                throws DatabaseCommandArgumentException {
+            return ReadKeyCommand.GetCommand(env, args);
         }
     },
     UPDATE_KEY {
-        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
-            if (args.length != 4) {
-                throw new IllegalArgumentException("This command requires exactly 4 arguments");
-            }
-            return new UpdateKeyCommand(args[0], args[1], args[2], args[3], env);
+        public DatabaseCommand getCommand(ExecutionEnvironment env, String... args)
+                throws DatabaseCommandArgumentException {
+            return UpdateKeyCommand.GetCommand(env, args);
         }
     };
 
-    public abstract DatabaseCommand getCommand(ExecutionEnvironment env, String... args);
+    public abstract DatabaseCommand getCommand(ExecutionEnvironment env, String... args)
+            throws DatabaseCommandArgumentException;
 }

@@ -18,41 +18,41 @@ public interface DatabaseCommandResult {
 
     class Result implements DatabaseCommandResult {
 
-        private final String result;
+        private final String resultMessage;
 
-        private final boolean isSuccess;
+        private final DatabaseCommandStatus status;
 
-        private Result(String message, boolean isSuccess) {
-            this.isSuccess = isSuccess;
-            result = message;
+        private Result(String message, DatabaseCommandStatus status) {
+            this.status = status;
+            resultMessage = message;
         }
 
         public static DatabaseCommandResult success(String result) {
-            return new Result(result, true);
+            return new Result(result, DatabaseCommandStatus.SUCCESS);
         }
 
         public static DatabaseCommandResult error(String message) {
-            return new Result(message, false);
+            return new Result(message, DatabaseCommandStatus.FAILED);
         }
 
         @Override
         public Optional<String> getResult() {
-            return isSuccess() ? Optional.of(result) : Optional.empty();
+            return isSuccess() ? Optional.of(resultMessage) : Optional.empty();
         }
 
         @Override
         public DatabaseCommandStatus getStatus() {
-            return isSuccess() ? DatabaseCommandStatus.SUCCESS : DatabaseCommandStatus.FAILED;
+            return status;
         }
 
         @Override
         public boolean isSuccess() {
-            return isSuccess;
+            return status == DatabaseCommandStatus.SUCCESS;
         }
 
         @Override
         public String getErrorMessage() {
-            return isSuccess() ? null : result;
+            return isSuccess() ? null : resultMessage;
         }
     }
 }

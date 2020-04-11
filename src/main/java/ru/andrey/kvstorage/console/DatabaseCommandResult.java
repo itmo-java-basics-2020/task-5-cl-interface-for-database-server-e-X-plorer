@@ -18,13 +18,26 @@ public interface DatabaseCommandResult {
 
     class Result implements DatabaseCommandResult {
 
-        private final String resultMessage;
+        private final String result;
+
+        private final String errorMessage;
 
         private final DatabaseCommandStatus status;
 
         private Result(String message, DatabaseCommandStatus status) {
             this.status = status;
-            resultMessage = message;
+            switch (status) {
+                case SUCCESS:
+                    result = message;
+                    errorMessage = "No error";
+                    break;
+                case FAILED:
+                    result = "failed";
+                    errorMessage = message;
+                    break;
+                default:
+                    throw new IllegalStateException("Unsupported database command status " + status);
+            }
         }
 
         public static DatabaseCommandResult success(String result) {
@@ -37,7 +50,7 @@ public interface DatabaseCommandResult {
 
         @Override
         public Optional<String> getResult() {
-            return isSuccess() ? Optional.of(resultMessage) : Optional.empty();
+            return isSuccess() ? Optional.of(result) : Optional.empty();
         }
 
         @Override
@@ -52,7 +65,7 @@ public interface DatabaseCommandResult {
 
         @Override
         public String getErrorMessage() {
-            return isSuccess() ? null : resultMessage;
+            return errorMessage;
         }
     }
 }

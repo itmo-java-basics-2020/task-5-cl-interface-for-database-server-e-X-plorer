@@ -11,8 +11,11 @@ public class ReadKeyFactory implements DatabaseCommandFactory {
     @Override
     public DatabaseCommand getCommand(ExecutionEnvironment env, String... args)
             throws DatabaseCommandArgumentException {
-        if (args.length != ARGS_LENGTH) {
+        if (args == null || args.length != ARGS_LENGTH) {
             throw new DatabaseCommandArgumentException("This command requires exactly " + ARGS_LENGTH + " arguments");
+        }
+        if (env == null) {
+            throw new DatabaseCommandArgumentException("Execution environment not specified");
         }
         return new ReadKeyCommand(args[DATABASE_NAME_ARG_INDEX], args[TABLE_NAME_ARG_INDEX], args[KEY_ARG_INDEX], env);
     }

@@ -3,16 +3,17 @@ package ru.andrey.kvstorage.logic;
 import ru.andrey.kvstorage.exception.DatabaseException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleDatabase implements Database {
 
     private final String name;
 
-    private HashMap<String, HashMap<String, String>> tables;
+    private Map<String, Map<String, String>> tables;
 
     public SimpleDatabase(String name) {
         this.name = name;
-        tables = new HashMap<String, HashMap<String, String>>();
+        tables = new HashMap<>();
     }
 
     @Override
@@ -25,7 +26,7 @@ public class SimpleDatabase implements Database {
         if (tables.get(tableName) != null) {
             throw new DatabaseException("Table already exists");
         }
-        tables.put(tableName, new HashMap<String, String>());
+        tables.put(tableName, new HashMap<>());
     }
 
     @Override

@@ -4,6 +4,14 @@ import java.util.Optional;
 
 public interface DatabaseCommandResult {
 
+    static DatabaseCommandResult success(String resultMessage) {
+        return new Result(resultMessage, Result.ERROR_MESSAGE_ON_SUCCESS, DatabaseCommandStatus.SUCCESS);
+    }
+
+    static DatabaseCommandResult error(String errorMessage) {
+        return new Result(null, errorMessage, DatabaseCommandStatus.FAILED);
+    }
+
     Optional<String> getResult();
 
     DatabaseCommandStatus getStatus();
@@ -18,39 +26,23 @@ public interface DatabaseCommandResult {
 
     class Result implements DatabaseCommandResult {
 
-        private final String result;
+        private static final String ERROR_MESSAGE_ON_SUCCESS = "No error";
+
+        private final String resultMessage;
 
         private final String errorMessage;
 
         private final DatabaseCommandStatus status;
 
-        private Result(String message, DatabaseCommandStatus status) {
+        private Result(String resultMessage, String errorMessage, DatabaseCommandStatus status) {
+            this.resultMessage = resultMessage;
+            this.errorMessage = errorMessage;
             this.status = status;
-            switch (status) {
-                case SUCCESS:
-                    result = message;
-                    errorMessage = "No error";
-                    break;
-                case FAILED:
-                    result = null;
-                    errorMessage = message;
-                    break;
-                default:
-                    throw new IllegalStateException("Unsupported database command status " + status);
-            }
-        }
-
-        public static DatabaseCommandResult success(String result) {
-            return new Result(result, DatabaseCommandStatus.SUCCESS);
-        }
-
-        public static DatabaseCommandResult error(String message) {
-            return new Result(message, DatabaseCommandStatus.FAILED);
         }
 
         @Override
         public Optional<String> getResult() {
-            return Optional.ofNullable(result);
+            return Optional.ofNullable(resultMessage);
         }
 
         @Override

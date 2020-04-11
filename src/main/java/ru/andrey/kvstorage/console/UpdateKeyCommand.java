@@ -20,18 +20,19 @@ public class UpdateKeyCommand implements DatabaseCommand {
 
     @Override
     public DatabaseCommandResult execute() {
-        var database = environment.getDatabase(databaseName);
-        if (database.isEmpty()) {
-            return DatabaseCommandResult.Result.error("Database " + databaseName + " not found");
+        var optionalDatabase = environment.getDatabase(databaseName);
+        if (optionalDatabase.isEmpty()) {
+            return DatabaseCommandResult.error("Database " + databaseName + " not found");
         }
+        var database = optionalDatabase.get();
 
         try {
-            database.get().write(tableName, key, value);
+            database.write(tableName, key, value);
         } catch (DatabaseException exception) {
-            return DatabaseCommandResult.Result.error(exception.getMessage());
+            return DatabaseCommandResult.error(exception.getMessage());
         }
 
-        return DatabaseCommandResult.Result
+        return DatabaseCommandResult
                 .success("Key-value pair (" + key + ", " + value + ") added to table " + tableName + " successfully");
     }
 }

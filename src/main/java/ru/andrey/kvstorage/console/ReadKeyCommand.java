@@ -18,21 +18,22 @@ public class ReadKeyCommand implements DatabaseCommand {
 
     @Override
     public DatabaseCommandResult execute() {
-        var database = environment.getDatabase(databaseName);
-        if (database.isEmpty()) {
-            return DatabaseCommandResult.Result.error("Database " + databaseName + " not found");
+        var optionalDatabase = environment.getDatabase(databaseName);
+        if (optionalDatabase.isEmpty()) {
+            return DatabaseCommandResult.error("Database " + databaseName + " not found");
         }
+        var database = optionalDatabase.get();
 
         String result;
         try {
-            result = database.get().read(tableName, key);
+            result = database.read(tableName, key);
         } catch (DatabaseException exception) {
-            return DatabaseCommandResult.Result.error(exception.getMessage());
+            return DatabaseCommandResult.error(exception.getMessage());
         }
 
         if (result == null) {
-            return DatabaseCommandResult.Result.error("Key " + key + " not found");
+            return DatabaseCommandResult.error("Key " + key + " not found");
         }
-        return DatabaseCommandResult.Result.success(result);
+        return DatabaseCommandResult.success(result);
     }
 }

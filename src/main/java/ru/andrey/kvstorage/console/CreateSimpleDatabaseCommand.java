@@ -14,7 +14,6 @@ public class CreateSimpleDatabaseCommand implements DatabaseCommand {
     @Override
     public DatabaseCommandResult execute() {
         environment.addDatabase(new SimpleDatabase(databaseName));
-        return DatabaseCommandResult.Result
-                .success("Database " + databaseName + " added or updated successfully");
+        return DatabaseCommandResult.success("Database " + databaseName + " added or updated successfully");
     }
 }

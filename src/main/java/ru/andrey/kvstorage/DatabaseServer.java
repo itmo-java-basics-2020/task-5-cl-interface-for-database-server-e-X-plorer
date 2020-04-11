@@ -1,7 +1,6 @@
 package ru.andrey.kvstorage;
 
 import ru.andrey.kvstorage.console.*;
-import ru.andrey.kvstorage.exception.DatabaseCommandArgumentException;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -26,14 +25,14 @@ public class DatabaseServer {
 
     DatabaseCommandResult executeNextCommand(String commandText) {
         if (commandText == null || commandText.isEmpty()) {
-            return DatabaseCommandResult.Result.error("No input was given");
+            return DatabaseCommandResult.error("No input was given");
         }
         String[] arguments = commandText.split(" ");
         try {
             return DatabaseCommands.valueOf(arguments[0])
                     .getCommand(env, Arrays.copyOfRange(arguments, 1, arguments.length)).execute();
-        } catch (DatabaseCommandArgumentException | IllegalArgumentException exception) {
-            return DatabaseCommandResult.Result.error(exception.getMessage());
+        } catch (Exception exception) {
+            return DatabaseCommandResult.error(exception.getMessage());
         }
     }
 }

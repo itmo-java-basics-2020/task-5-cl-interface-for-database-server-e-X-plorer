@@ -32,7 +32,7 @@ public interface DatabaseCommandResult {
                     errorMessage = "No error";
                     break;
                 case FAILED:
-                    result = "failed";
+                    result = null;
                     errorMessage = message;
                     break;
                 default:
@@ -50,7 +50,7 @@ public interface DatabaseCommandResult {
 
         @Override
         public Optional<String> getResult() {
-            return isSuccess() ? Optional.of(result) : Optional.empty();
+            return Optional.ofNullable(result);
         }
 
         @Override

@@ -1,6 +1,5 @@
 package ru.andrey.kvstorage.console;
 
-import ru.andrey.kvstorage.exception.DatabaseCommandArgumentException;
 import ru.andrey.kvstorage.exception.DatabaseException;
 
 public class UpdateKeyCommand implements DatabaseCommand {
@@ -16,12 +15,12 @@ public class UpdateKeyCommand implements DatabaseCommand {
     private final String value;
     private final ExecutionEnvironment environment;
 
-    public UpdateKeyCommand(ExecutionEnvironment environment, String... args) throws DatabaseCommandArgumentException {
+    public UpdateKeyCommand(ExecutionEnvironment environment, String... args) {
         if (args == null || args.length != ARGS_LENGTH) {
-            throw new DatabaseCommandArgumentException("This command requires exactly " + ARGS_LENGTH + " arguments");
+            throw new IllegalArgumentException("This command requires exactly " + ARGS_LENGTH + " arguments");
         }
         if (environment == null) {
-            throw new DatabaseCommandArgumentException("Execution environment not specified");
+            throw new IllegalArgumentException("Execution environment not specified");
         }
 
         this.environment = environment;

@@ -1,6 +1,5 @@
 package ru.andrey.kvstorage.console;
 
-import ru.andrey.kvstorage.exception.DatabaseCommandArgumentException;
 import ru.andrey.kvstorage.logic.SimpleDatabase;
 
 public class CreateSimpleDatabaseCommand implements DatabaseCommand {
@@ -10,13 +9,12 @@ public class CreateSimpleDatabaseCommand implements DatabaseCommand {
     private final String databaseName;
     private final ExecutionEnvironment environment;
 
-    public CreateSimpleDatabaseCommand(ExecutionEnvironment environment, String... args)
-            throws DatabaseCommandArgumentException {
+    public CreateSimpleDatabaseCommand(ExecutionEnvironment environment, String... args) {
         if (args == null || args.length != ARGS_LENGTH) {
-            throw new DatabaseCommandArgumentException("This command requires exactly " + ARGS_LENGTH + " arguments");
+            throw new IllegalArgumentException("This command requires exactly " + ARGS_LENGTH + " arguments");
         }
         if (environment == null) {
-            throw new DatabaseCommandArgumentException("Execution environment not specified");
+            throw new IllegalArgumentException("Execution environment not specified");
         }
 
         this.environment = environment;
